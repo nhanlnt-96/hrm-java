@@ -9,7 +9,7 @@ public class DatabaseConnection {
   // .net/heroku_28fdb8291d6b6a4?reconnect=true
   public Connection conn;
 
-  public Connection getConn() {
+  public Connection getConnection() {
     String dbName = "heroku_28fdb8291d6b6a4";
     String dbUser = "b71a3f72ed637d";
     String dbPass = "457ba7a3";
