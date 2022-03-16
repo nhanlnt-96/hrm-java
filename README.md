@@ -20,6 +20,26 @@ https://gluonhq.com/products/scene-builder/#download
 https://gluonhq.com/products/javafx/
 `````
 
+- Java Mail API
+
+`````bash
+https://javaee.github.io/javamail/
+`````
+
+### Gmail account use for Java Mail API
+
+- Email
+
+`````bash
+aptech.nhom.3.hrm@gmail.com
+`````
+
+- Password
+
+`````bash
+Nhom3123
+`````
+
 ### Branch name table
 
 |          Branch          |        Description         |

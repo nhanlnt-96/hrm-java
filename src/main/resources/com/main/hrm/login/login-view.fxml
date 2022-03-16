@@ -57,7 +57,7 @@
                         </DropShadow>
                     </effect>
                 </Button>
-                <Label fx:id="forgotPasswordBtn" layoutX="365.0" layoutY="443.0" text="Forgot password?" textFill="#3554d1">
+                <Label fx:id="forgotPasswordBtn" layoutX="365.0" layoutY="443.0" onMouseClicked="#onForgotPassBtnClick" text="Forgot password?" textFill="#3554d1">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -70,8 +70,14 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-            <Label fx:id="usernameErr" layoutX="63.0" layoutY="304.0" textFill="RED" />
-            <Label fx:id="passwordErr" layoutX="63.0" layoutY="411.0" textFill="RED" />
+                <Label fx:id="usernameErr" layoutX="63.0" layoutY="304.0" textFill="RED">
+               <font>
+                  <Font size="11.0" />
+               </font></Label>
+                <Label fx:id="passwordErr" layoutX="63.0" layoutY="411.0" textFill="RED">
+               <font>
+                  <Font size="11.0" />
+               </font></Label>
             </children>
         </AnchorPane>
     </right>

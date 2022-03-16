@@ -3,23 +3,26 @@ package com.main.hrm.login;
 import db.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.xml.transform.Result;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-
   @FXML
   private ImageView login_bg;
 
@@ -35,6 +38,9 @@ public class LoginController implements Initializable {
 
   @FXML
   private Label passwordErr;
+
+  @FXML
+  private Label forgotPasswordBtn;
 
   @FXML
   private Button loginBtn;
@@ -64,11 +70,25 @@ public class LoginController implements Initializable {
     }
   }
 
+  public void onForgotPassBtnClick(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("enter-email-view.fxml"));
+    Parent parent = loader.load();
+
+    Stage stage = new Stage();
+    Scene scene = new Scene(parent);
+
+    stage.initModality(Modality.APPLICATION_MODAL);
+
+    stage.setScene(scene);
+    stage.show();
+  }
+
   public void onCancelBtnClick(ActionEvent actionEvent) {
     Stage stage = (Stage) cancelBtn.getScene().getWindow();
     stage.close();
   }
 
+  // function
   public void clearErrMsg() {
     usernameInput.setStyle("-fx-border-color: #000000");
     usernameErr.setText("");
@@ -77,30 +97,25 @@ public class LoginController implements Initializable {
   }
 
   public void loginFunc() {
-    DatabaseConnection databaseConnection = new DatabaseConnection();
-    Connection conn = databaseConnection.getConnection();
-    String loginQuery = "SELECT * FROM user WHERE username = '" + usernameInput.getText() + "' AND password = '" + passwordInput.getText() + "'";
+    String loginQuery =
+        "SELECT * FROM user WHERE username = '" + usernameInput.getText() + "' AND password = '" + passwordInput.getText() + "'";
     try {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      Statement stmt = conn.createStatement();
+      Statement stmt = DatabaseConnection.getMySQLConnection().createStatement();
       ResultSet result = stmt.executeQuery(loginQuery);
 
-      while (result.next()) {
-        if (result.getInt(1) == 1) {
-          alert.setTitle("Login success");
-          alert.setHeaderText("Look, an Information Dialog");
-          alert.setContentText("I have a great message for you!");
-
-          alert.showAndWait();
-        } else {
-          alert.setTitle("Login failed");
-          alert.setHeaderText("Look, an Information Dialog");
-          alert.setContentText("I have a great message for you!");
-
-          alert.showAndWait();
-        }
+      if (result.next()) {
+        alert.setTitle("Login Successful");
+      } else {
+        alert.setTitle("Login Failed");
       }
-    } catch (SQLException e) {
+
+      alert.setHeaderText("Look, an Information Dialog");
+      alert.setContentText("I have a great message for you!");
+      alert.showAndWait();
+
+      DatabaseConnection.getMySQLConnection().close();
+    } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
   }
